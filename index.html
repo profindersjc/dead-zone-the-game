@@ -37,28 +37,6 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 #pop.calm #px span{display:block;margin:.7em 0;opacity:0;animation:cfade 2.4s ease forwards}
 #pop.calm #pb{opacity:0;animation:cfade 2s ease 9.5s forwards}
 #pop.calm #pb button{background:rgba(255,233,199,.16);border:1px solid rgba(255,233,199,.5);color:#ffe9c7;font-weight:600;letter-spacing:.06em}
-#modBackdrop{position:fixed;inset:0;z-index:19;background:rgba(0,0,0,.72)}
-#modPanel{position:fixed;z-index:20;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100vw - 36px);max-width:320px;max-height:70dvh;overflow-y:auto;background:#11180f;border:1px solid #71875e;border-radius:12px;padding:8px;box-shadow:0 12px 36px #000c;touch-action:pan-y}
-#modPanel .modhead{display:flex;align-items:center;justify-content:space-between;gap:6px;padding-bottom:5px;border-bottom:1px solid #394634;margin-bottom:5px}
-#modPanel h2{margin:0;font-size:15px;letter-spacing:.2px}
-#modPanel .modclose{width:32px;min-width:32px;height:32px;min-height:32px;padding:0;font-size:20px}
-#modPanel label{display:block;text-align:left;font-size:11px;color:#d5dfca;margin:5px 0 3px}
-#modPanel select,#modPanel button{width:100%;min-height:34px;border-radius:7px;border:1px solid #526449;background:#222b1e;color:#fff;padding:5px 7px;font:inherit;font-size:12px}
-#modPanel select{font-size:12px}
-#modPanel .modsection{font-size:9px;font-weight:900;letter-spacing:1px;color:#a9d67e;margin:7px 0 3px}
-#modPanel .modrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:4px 0;padding:5px;border:1px solid #394634;background:#1b2318;border-radius:8px}
-#modPanel .modrow label{margin:0;font-size:11px}
-#modPanel input[type=checkbox]{width:19px;height:19px;flex:0 0 19px;accent-color:#a9e85d}
-#modPanel .modactions{display:grid;grid-template-columns:1fr;gap:5px;margin-top:5px}
-#modPanel #applyMod{background:#526e36;border-color:#a4c67c;font-weight:800}
-#modPanel .modhint{font-size:9px;line-height:1.25;color:#b7c3ae;margin:3px 0}
-#modPanel[hidden],#modBackdrop[hidden],#modLock[hidden]{display:none!important}
-#modLock{position:fixed;z-index:21;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100vw - 32px);max-width:300px;background:#11180f;border:1px solid #71875e;border-radius:14px;padding:18px;box-shadow:0 12px 36px #000c;text-align:center}
-#modLock h2{margin:0 0 8px;font-size:20px}
-#modLock p{font-size:12px;color:#bdc8b4}
-#modLock input{width:100%;height:46px;border-radius:8px;border:1px solid #526449;background:#222b1e;color:#fff;padding:10px;font-size:18px;text-align:center;letter-spacing:4px;box-sizing:border-box}
-#modLock button{width:100%;height:44px;margin-top:9px;border-radius:8px;border:1px solid #a4c67c;background:#526e36;color:#fff;font-weight:800}
-#modLock .err{color:#ff9a85;min-height:16px;font-size:12px}
 #mu.off{opacity:.4}
 #bb{position:fixed;left:50%;transform:translateX(-50%);top:calc(max(12px,env(safe-area-inset-top)) + 132px);width:min(72vw,340px);text-align:center;pointer-events:none}
 #bb[hidden]{display:none}
@@ -87,46 +65,18 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 <div id="bn"></div>
 <div id="ui">
   <h1 id="tt">Dead Zone</h1>
-  <p id="tx">Left thumb moves. Right thumb aims and shoots</p>
+  <p id="tx">Left thumb moves. Right thumb aims and shoots. Controller: left stick moves, right stick aims/shoots, RT/RB/A shoots, Start pauses. Left thumb moves; right thumb aims and shoots. Survive all 10 levels.</p>
   <button id="go">Play</button>
-  <div id="tip"> Keyboard: WASD + mouse, P to pause</div>
+  <div id="tip">Elemental zombies appear only in the city (level 6+), mutants from level 8. City-only weapons: Love Syringe and Grenade Launcher. Keyboard: WASD + mouse, P to pause. Gamepad: left/right sticks, RT/RB or A to shoot, Start to pause</div>
 </div>
 <div id="pop" hidden><svg id="ps" viewBox="0 0 200 110" aria-hidden="true"><circle cx="100" cy="64" r="26" fill="#ffd9a0" opacity=".9"/><path d="M0 84Q50 66 100 80T200 76V110H0Z" fill="#4a3446"/><path d="M0 96Q60 84 120 94T200 90V110H0Z" fill="#2c2233"/><rect x="72" y="66" width="56" height="30" fill="#6b4636"/><path d="M66 67L100 42L134 67Z" fill="#3b2420"/><rect x="118" y="46" width="7" height="14" fill="#3b2420"/><rect x="94" y="78" width="12" height="18" fill="#ffcf70"/><rect x="78" y="74" width="10" height="9" fill="#ffd98a"/><rect x="112" y="74" width="10" height="9" fill="#ffd98a"/><g fill="#1c1420"><circle cx="146" cy="88" r="2.6"/><rect x="144" y="91" width="4" height="9" rx="1.5"/><circle cx="154" cy="90" r="2"/><rect x="152.5" y="92.5" width="3" height="7" rx="1.2"/><circle cx="138" cy="91" r="1.7"/><rect x="136.8" y="93" width="2.5" height="6" rx="1"/></g></svg><h1 id="pt"></h1><p id="px"></p><div id="pb"></div></div>
-<div id="modBackdrop" hidden></div>
-<div id="modLock" hidden>
-  <h2>Tester Access</h2>
-  <p>Enter the password to open the admin menu.</p>
-  <input id="modPassword" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="12" placeholder="Password" autocomplete="off" />
-  <button id="unlockMod">UNLOCK</button>
-  <div id="modLockErr" class="err"></div>
-</div>
-<div id="modPanel" hidden>
-  <div class="modhead"><h2>ADMIN MENU</h2><button id="closeModTop" class="modclose" aria-label="Close tester menu">×</button></div>
-  <p class="modhint">Testing tools. Loadout and cheats apply immediately; starting level applies on the next new run.</p>
-  <div class="modsection">LOADOUT</div>
-  <label for="modWeapon">Weapon</label>
-  <select id="modWeapon"><option value="pistol">Pistol</option><option value="smg">SMG</option><option value="shotgun">Shotgun</option><option value="laser">Laser</option><option value="syringe">Love Syringe (city)</option><option value="gl">Grenade Launcher (city)</option></select>
-  <label for="modCoating">Bullet coating</label>
-  <select id="modCoating"><option value="">No coating</option><option value="fire">Fire</option><option value="ice">Ice</option><option value="electric">Electric / Shock</option><option value="toxic">Toxic</option></select>
-  <div class="modactions"><button id="applyMod">Apply Loadout</button></div>
-  <div class="modsection">CHEATS</div>
-  <div class="modrow"><label for="modOneShot">One-shot everything</label><input id="modOneShot" type="checkbox"></div>
-  <div class="modrow"><label for="modInvincible">Invincibility <span id="invStatus" style="color:#a9e85d;font-size:11px">OFF</span></label><input id="modInvincible" type="checkbox"></div>
-  <div class="modsection">WORLD CONTROL</div>
-  <label for="modLevel">Starting level</label>
-  <select id="modLevel"><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option><option value="4">Level 4</option><option value="5">Level 5</option><option value="6">Level 6 — Frostfire Sovereign</option><option value="7">Level 7 — Rotting Titan</option><option value="8">Level 8 — Plague Doctor</option><option value="9">Level 9 — The Surgeon</option><option value="10">Level 10 — The Overlord</option></select>
-  <label for="modZombie">Zombie type to spawn</label>
-  <select id="modZombie"><option value="w">Normal Zombie</option><option value="r">Runner</option><option value="b">Brute</option><option value="f">Fire Zombie</option><option value="i">Ice Zombie</option><option value="e">Electric Zombie</option><option value="x">Toxic Zombie</option><option value="m">Mutant (strong, level 8+)</option></select>
-  <div class="modactions"><button id="spawnMod">＋ Spawn Zombie</button></div>
-  <div class="modactions"><button id="closeMod">Close Menu</button></div>
-</div>
 <script>
 const $=id=>document.getElementById(id),cv=$('c'),ctx=cv.getContext('2d');
 const clamp=(v,a,b)=>v<a?a:v>b?b:v,rnd=(a,b)=>a+Math.random()*(b-a);
 const hit=(a,b,r)=>(a.x-b.x)**2+(a.y-b.y)**2<r*r;
 const dot=(x,y,r)=>{ctx.beginPath();ctx.arc(x,y,r,0,6.283);ctx.fill()};
 const poly=p=>{ctx.beginPath();p.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));ctx.closePath();ctx.fill()};
-const WP={syringe:{n:'Love Syringe',rate:.55,sp:.01,pel:1,life:1.1,ammo:1},gl:{n:'Grenade Launcher',rate:.85,sp:.02,pel:1,life:.7,ammo:8},pistol:{n:'Pistol',rate:.24,sp:.03,pel:1,life:.9,ammo:0},smg:{n:'SMG',rate:.085,sp:.1,pel:1,life:.8,ammo:90},shotgun:{n:'Shotgun',rate:.75,sp:.3,pel:7,life:.38,ammo:18},laser:{n:'Laser',rate:.09,sp:0,pel:1,life:0,ammo:120}};
+const WP={syringe:{n:'Love Syringe',rate:.55,sp:.13,pel:3,life:1.1,ammo:1},gl:{n:'Grenade Launcher',rate:.85,sp:.02,pel:1,life:.7,ammo:8},pistol:{n:'Pistol',rate:.24,sp:.03,pel:1,life:.9,ammo:0},smg:{n:'SMG',rate:.085,sp:.1,pel:1,life:.8,ammo:90},shotgun:{n:'Shotgun',rate:.75,sp:.3,pel:7,life:.38,ammo:18},laser:{n:'Laser',rate:.09,sp:0,pel:1,life:0,ammo:120}};
 const ZT={
  w:{r:14,hp:3,sp:55,dm:10,sc:10,c:'#7fa35b'},
  r:{r:12,hp:2,sp:125,dm:8,sc:20,c:'#b9c46a'},
@@ -151,8 +101,9 @@ const BOSS=[
 ];
 let W,H,U,P=null,st='menu',t=0,score=0,kills=0,best=0,wave=0,toSpawn=0,spawnT=0,clearT=0,shake=0,hurtT=0,fireT=0,flash=0;
 let bullets=[],zs=[],pu=[],decals=[],parts=[],eb=[],rings=[],lvl=1,wInL=0,boss=null,beam=null,ac=null,nb=null,mute=false;
-let modOneShot=false,modInvincible=false,modStartLevel=1,cityOn=false,human=null,failMsg='',seenM=false,fx=[];
+let cityOn=false,human=null,failMsg='',seenM=false,fx=[];
 const keys={},mouse={x:0,y:0,down:0,on:0},sticks={move:null,aim:null},isTouch='ontouchstart' in window;
+let gamepadConnected=false,gamepadShoot=false,gamepadPauseWasDown=false,gamepadIndex=null,gamepadAimMode=false,gamepadRumblePrimed=false;
 try{best=+localStorage.getItem('deadZoneBest')||0}catch(e){}
 
 function resize(){
@@ -162,6 +113,77 @@ function resize(){
   if(P){P.x=clamp(P.x,16*U,W-16*U);P.y=clamp(P.y,16*U,H-16*U)}
 }
 addEventListener('resize',resize);resize();
+
+/* Gamepad support: left stick moves, right stick aims, RT/RB shoots, Start pauses. */
+addEventListener('gamepadconnected',e=>{gamepadConnected=true;gamepadIndex=e.gamepad.index;gamepadAimMode=false;gamepadRumblePrimed=false;banner('Controller connected')});
+addEventListener('gamepaddisconnected',e=>{if(gamepadIndex===e.gamepad.index){gamepadConnected=false;gamepadIndex=null;gamepadShoot=false;gamepadPauseWasDown=false;gamepadAimMode=false;gamepadRumblePrimed=false;banner('Controller disconnected')}});
+function readGamepad(){
+  let pads=[];try{pads=navigator.getGamepads?navigator.getGamepads():[]}catch(e){}
+  let gp=(gamepadIndex!==null&&pads[gamepadIndex]&&pads[gamepadIndex].connected&&pads[gamepadIndex])||Array.from(pads).find(p=>p&&p.connected);
+  if(!gp){gamepadShoot=false;gamepadConnected=false;return null}
+  gamepadConnected=true;gamepadIndex=gp.index;
+  const ax=(i)=>gp.axes&&Number.isFinite(gp.axes[i])?gp.axes[i]:0;
+  const dz=v=>Math.abs(v)<.18?0:(Math.abs(v)-.18)/.82*Math.sign(v);
+  const buttons=gp.buttons||[];
+  const pressed=i=>!!(buttons[i]&&(buttons[i].pressed||buttons[i].value>.5));
+  const lx=dz(ax(0)),ly=dz(ax(1)),rx=dz(ax(2)),ry=dz(ax(3));
+  const rightStick=Math.hypot(rx,ry)>.22;
+  const shoot=pressed(7)||pressed(5)||pressed(0)||rightStick;
+  const pauseDown=pressed(9)||(buttons.length<=9&&pressed(8));
+  if(pauseDown&&!gamepadPauseWasDown)pause();
+  gamepadPauseWasDown=pauseDown;
+  gamepadShoot=shoot;
+  if(st==='play'&&!gamepadRumblePrimed&&(shoot||rightStick||Math.hypot(lx,ly)>.35)){gamepadRumblePrimed=true;controllerRumble(5)}
+  return {lx,ly,rx,ry,rightStick,shoot};
+}
+function startButtonIndex(gp){return gp.buttons&&gp.buttons.length>9?9:8;}
+function controllerRumble(damage=10){
+  // Try all connected pads/actuators. Some browsers expose vibrationActuator,
+  // others expose hapticActuators; some reject dual-rumble but support pulse().
+  let pads=[];
+  try{pads=navigator.getGamepads?Array.from(navigator.getGamepads()||[]):[]}catch(e){return}
+  const candidates=[];
+  const preferred=(gamepadIndex!==null)?pads[gamepadIndex]:null;
+  if(preferred&&preferred.connected)candidates.push(preferred);
+  for(const p of pads)if(p&&p.connected&&p!==preferred)candidates.push(p);
+  if(!candidates.length)return;
+
+  const strong=Math.max(.45,Math.min(1,.45+damage/35));
+  const weak=Math.max(.3,Math.min(.9,strong*.75));
+  const duration=Math.max(110,Math.min(320,100+damage*5));
+  const params={startDelay:0,duration,strongMagnitude:strong,weakMagnitude:weak};
+  const pulsed=new Set();
+  const pulseFallback=(actuator)=>{
+    if(!actuator||typeof actuator.pulse!=='function'||pulsed.has(actuator))return false;
+    pulsed.add(actuator);
+    try{
+      const r=actuator.pulse(Math.max(strong,weak),duration);
+      if(r&&typeof r.catch==='function')r.catch(()=>{});
+      return true;
+    }catch(e){return false}
+  };
+  const tryActuator=(actuator)=>{
+    if(!actuator)return false;
+    if(typeof actuator.playEffect==='function'){
+      try{
+        const result=actuator.playEffect('dual-rumble',params);
+        if(result&&typeof result.then==='function'){
+          result.then(status=>{if(status!=='complete'&&status!=='preempted')pulseFallback(actuator)})
+                .catch(()=>{pulseFallback(actuator)});
+        }
+        return true;
+      }catch(e){/* Fall through to legacy pulse(). */}
+    }
+    return pulseFallback(actuator);
+  };
+  for(const gp of candidates){
+    // Prefer dual-motor rumble when available; use every exposed actuator as fallback.
+    const acts=[];
+    try{if(gp.vibrationActuator)acts.push(gp.vibrationActuator)}catch(e){}
+    try{for(const a of (gp.hapticActuators||[]))if(a&&!acts.includes(a))acts.push(a)}catch(e){}
+    for(const a of acts){if(tryActuator(a))return}
+  }
+}
 
 /* audio */
 function initAudio(){
@@ -198,7 +220,7 @@ function show(title,text,btn,tip){
 function banner(s){const b=$('bn');b.textContent=s;b.classList.remove('on');void b.offsetWidth;b.classList.add('on')}
 function reset(){
   t=0;score=0;kills=0;wave=0;toSpawn=0;spawnT=0;clearT=0;shake=0;hurtT=0;fireT=0;flash=0;
-  bullets=[];zs=[];pu=[];decals=[];parts=[];eb=[];rings=[];fx=[];human=null;failMsg='';seenM=false;lvl=clamp(modStartLevel,1,10);cityOn=lvl>=6;wInL=0;boss=null;beam=null;$('bb').hidden=true;sticks.move=sticks.aim=null;mouse.down=0;
+  bullets=[];zs=[];pu=[];decals=[];parts=[];eb=[];rings=[];fx=[];human=null;failMsg='';seenM=false;lvl=1;cityOn=false;wInL=0;boss=null;beam=null;$('bb').hidden=true;sticks.move=sticks.aim=null;mouse.down=0;
   P={x:W/2,y:H/2,a:-1.57,hp:100,inv:0,wp:'pistol',ammo:0,coat:'',coatT:0,coatOn:false,slow:0,toxicT:0};hud();
   if(lvl>=6){clearT=99;if(lvl===7)mkHuman();startBoss()}else{clearT=1.7}
 }
@@ -214,53 +236,8 @@ function over(win){
   }
   show(failMsg||(win?'Game Complete!':'You were overrun'),'Level '+Math.min(lvl,10)+', kills '+kills+'. Score '+score+(nb2?'. New best!':'. Best '+best+'.'),'Play again',false);
 }
-$('go').onclick=()=>{initAudio();modStartLevel=+$('modLevel').value;modOneShot=$('modOneShot').checked;modInvincible=$('modInvincible').checked;if(st==='pause'){st='play'}else{reset();st='play'}$('ui').hidden=true};
+$('go').onclick=()=>{initAudio();if(st==='pause'){st='play'}else{reset();st='play'}$('ui').hidden=true};
 $('coat').onclick=()=>{if(!P||st!=='play'||!P.coat||P.coatT<=0)return;P.coatOn=!P.coatOn;hud()};
-let modUnlocked=false;
-function setModOpen(open){
-  $('modPanel').hidden=true;$('modLock').hidden=true;$('modBackdrop').hidden=!open;
-  if(open){
-    sticks.move=sticks.aim=null;mouse.down=0;
-    if(modUnlocked){$('modPanel').hidden=false}
-    else{$('modLock').hidden=false;$('modPassword').value='';$('modLockErr').textContent='';setTimeout(()=>{},0);$('modPassword').focus()}
-  }
-}
-function unlockMod(){
-  if($('modPassword').value==='787898'){
-    modUnlocked=true;$('modLock').hidden=true;$('modPanel').hidden=false;$('modLockErr').textContent='';
-  }else{$('modLockErr').textContent='Incorrect password';$('modPassword').value=''}
-}
-$('unlockMod').onclick=unlockMod;
-$('modPassword').addEventListener('keydown',e=>{if(e.key==='Enter')unlockMod()});
-$('closeMod').onclick=()=>setModOpen(false);
-$('closeModTop').onclick=()=>setModOpen(false);
-$('modBackdrop').onclick=()=>setModOpen(false);
-$('modOneShot').onchange=e=>{modOneShot=e.target.checked};
-$('modInvincible').onchange=e=>{
-  modInvincible=e.target.checked;
-  $('invStatus').textContent=modInvincible?'ON':'OFF';
-  $('invStatus').style.color=modInvincible?'#a9e85d':'#a7afa0';
-  if(modInvincible&&P){P.hp=100;P.inv=.12;hud()}
-};
-$('modLevel').onchange=e=>{modStartLevel=+e.target.value};
-$('applyMod').onclick=()=>{
-  modOneShot=$('modOneShot').checked;modInvincible=$('modInvincible').checked;modStartLevel=+$('modLevel').value;
-  $('invStatus').textContent=modInvincible?'ON':'OFF';
-  $('invStatus').style.color=modInvincible?'#a9e85d':'#a7afa0';
-  if(modInvincible&&P){P.hp=100;P.inv=.12}
-  if(P){
-    P.wp=$('modWeapon').value;P.ammo=P.wp==='pistol'?0:WP[P.wp].ammo;
-    P.coat=$('modCoating').value;P.coatT=P.coat?999999:0;P.coatOn=!!P.coat;
-    hud();
-  }
-};
-$('spawnMod').onclick=()=>{
-  if(!P){$('modPanel').hidden=true;return}
-  const side=Math.random()*4|0,m=30;let x,y;
-  if(side<2){x=rnd(0,W);y=side?H+m:-m}else{y=rnd(0,H);x=side===2?-m:W+m}
-  const z=mkZ($('modZombie').value,clamp(x,25,W-25),clamp(y,25,H-25));
-  z.x=clamp(x,25,W-25);z.y=clamp(y,25,H-25);zs.push(z);hud();
-};
 $('pa').onclick=pause;
 $('mu').onclick=()=>{mute=!mute;$('mu').classList.toggle('off',mute)};
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});
@@ -268,7 +245,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});
 /* input: left half = move stick, right half = aim and shoot stick, mouse and keys on desktop */
 const SR=55;
 cv.addEventListener('pointerdown',e=>{
-  if(!$('modPanel').hidden||st!=='play')return;
+  if(st!=='play')return;
   if(e.pointerType==='mouse'){mouse.on=1;mouse.down=1;mouse.x=e.clientX;mouse.y=e.clientY;return}
   const k=e.clientX<W/2?'move':'aim';if(sticks[k])return;
   sticks[k]={id:e.pointerId,ox:e.clientX,oy:e.clientY,x:e.clientX,y:e.clientY};cv.setPointerCapture(e.pointerId);
@@ -315,7 +292,7 @@ function applyCoatingHit(z){
 }
 function shoot(){
   const w=WP[P.wp];fireT=w.rate;let base=P.a;
-  if(w.pel===1){
+  if(w.pel===1||P.wp==='syringe'){
     let bd=.1;
     for(const z of zs){if(z.ally)continue;const a2=Math.atan2(z.y-P.y,z.x-P.x),da=Math.abs(Math.atan2(Math.sin(a2-P.a),Math.cos(a2-P.a)));
       if(da<bd&&Math.hypot(z.x-P.x,z.y-P.y)<700*U){bd=da;base=a2}}
@@ -326,13 +303,16 @@ function shoot(){
     for(const z of zs){
       const dx=z.x-mx,dy=z.y-my,pr=dx*c+dy*sn;
       if(!z.dead&&!z.ally&&pr>0&&pr<L&&Math.abs(-dx*sn+dy*c)<z.r+4*U){
-        let dmg=modOneShot?99999:applyCoatingHit(z);
+        let dmg=applyCoatingHit(z);
         z.hp-=dmg;z.hit=.05;splat(z.x,z.y,1);if(z.hp<=0)kill(z)}
     }
     tone(240+rnd(0,40),.07,'sawtooth',.025,60);
   }else{
     for(let i=0;i<w.pel;i++){
-      const a=base+(Math.random()-.5)*w.sp*2,v=(P.wp==='syringe'?620:P.wp==='gl'?520:850)*U*rnd(.95,1.05);
+      // Love Syringe fires three visible darts: left, centre, and right.
+      const syringeSpread=[-.24,0,.24];
+      const a=P.wp==='syringe' ? base+syringeSpread[i] : base+(Math.random()-.5)*w.sp*2;
+      const v=(P.wp==='syringe'?620:P.wp==='gl'?520:850)*U*rnd(.95,1.05);
       bullets.push({x:mx,y:my,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:w.life,coat:(P.coatOn&&P.coatT>0)?P.coat:'',syr:P.wp==='syringe',gr:P.wp==='gl'});
     }
     flash=.05;shake=Math.max(shake,w.pel>1?.12:.03);
@@ -444,7 +424,7 @@ function nextWave(){
 }
 function mkHuman(){human={x:P.x+60*U,y:P.y+40*U,hp:100,max:100,hit:0}}
 function hurtH(n){
-  if(!human||st==='over'||modInvincible)return;
+  if(!human||st==='over')return;
   human.hp-=n;human.hit=.12;splat(human.x,human.y,4);
   if(human.hp<=0){failMsg='The survivor didn’t make it';over()}
 }
@@ -458,13 +438,15 @@ function boomG(b){
   fx.push({x:b.x,y:b.y,r:R,l:.35,m:.35});shake=Math.max(shake,.3);noise(.35,.5);splat(b.x,b.y,18);
   for(const z of zs){
     if(z.dead||z.ally)continue;const d=Math.hypot(z.x-b.x,z.y-b.y);
-    if(d<R+z.r){z.hp-=modOneShot?99999:10*applyCoatingHit(z)*(1-.5*d/(R+z.r));z.hit=.1;if(z.hp<=0)kill(z)}
+    if(d<R+z.r){z.hp-=10*applyCoatingHit(z)*(1-.5*d/(R+z.r));z.hit=.1;if(z.hp<=0)kill(z)}
   }
 }
 function hurt(n){
   if(P.inv>0)return;
   P.hp-=n;P.inv=.2;hurtT=.35;shake=.25;noise(.15,.3);
-  if(navigator.vibrate)navigator.vibrate(40);
+  // Keep the phone vibration and also rumble a connected compatible controller.
+  try{if(navigator.vibrate)navigator.vibrate(40)}catch(e){}
+  controllerRumble(n);
   hud();if(P.hp<=0)over();
 }
 function kill(z){
@@ -492,25 +474,33 @@ function update(dt){
   t+=dt;shake=Math.max(0,shake-dt);hurtT=Math.max(0,hurtT-dt);flash=Math.max(0,flash-dt);fireT-=dt;P.inv=Math.max(0,P.inv-dt);
   P.slow=Math.max(0,P.slow-dt);
   P.toxicT=Math.max(0,(P.toxicT||0)-dt);
-  if(P.toxicT>0&&!modInvincible){P.hp=Math.max(0,P.hp-4*dt);if(P.hp<=0){hud();over();return}}
-  if(modInvincible)P.hp=100;
+  if(P.toxicT>0){P.hp=Math.max(0,P.hp-4*dt);if(P.hp<=0){hud();over();return}}
   if(P.coatT>0){P.coatT-=dt;if(P.coatT<=0){P.coat='';P.coatOn=false;hud()}}
   if(toSpawn>0){spawnT-=dt;if(spawnT<=0){spawnZ();toSpawn--;spawnT=Math.max(lvl>6?.22:.3,1.1-wave*.06)}}
   else if(!zs.some(q=>!q.ally)){clearT+=dt;if(clearT>2.2){clearT=0;nextWave()}}
   /* move */
+  const gp=readGamepad();
   let mx=0,my=0;const sm=vec(sticks.move);
   if(sm&&sm.d>6){mx=Math.cos(sm.a)*sm.m;my=Math.sin(sm.a)*sm.m}
+  else if(gp){mx=gp.lx;my=gp.ly}
   if(keys.a||keys.arrowleft)mx-=1;if(keys.d||keys.arrowright)mx+=1;
   if(keys.w||keys.arrowup)my-=1;if(keys.s||keys.arrowdown)my+=1;
   const ml=Math.hypot(mx,my);if(ml>1){mx/=ml;my/=ml}
   const playerSpeed=170*U*(P.slow>0?.58:1);
   P.x=clamp(P.x+mx*playerSpeed*dt,16*U,W-16*U);P.y=clamp(P.y+my*playerSpeed*dt,16*U,H-16*U);
-  /* aim and fire */
-  let fire=false;const sa=vec(sticks.aim);
-  if(sa){fire=true;if(sa.d>10)P.a=sa.a}
-  else if(mouse.on){}
-  else if(ml>.1)P.a=Math.atan2(my,mx);
-  if(mouse.on){P.a=Math.atan2(mouse.y-P.y,mouse.x-P.x);if(mouse.down)fire=true}
+  /* aim and fire: once the gamepad right stick is used, it owns aim until disconnect.
+     This prevents stale mouse movement from continually overwriting controller aim. */
+  let fire=!!(gp&&gp.shoot);const sa=vec(sticks.aim);
+  if(gp&&gp.rightStick){
+    P.a=Math.atan2(gp.ry,gp.rx);
+    gamepadAimMode=true;
+  }else if(gp&&gamepadAimMode){
+    // Keep the last right-stick aim direction while the stick returns to its dead zone.
+  }else if(sa){
+    fire=true;if(sa.d>10)P.a=sa.a;
+  }else if(mouse.on){
+    P.a=Math.atan2(mouse.y-P.y,mouse.x-P.x);if(mouse.down)fire=true;
+  }else if(ml>.1){P.a=Math.atan2(my,mx)}
   if(keys[' '])fire=true;
   if(fire&&fireT<=0)shoot();
   /* bullets */
@@ -519,7 +509,7 @@ function update(dt){
     for(const z of zs){
       if(z.dead||z.ally)continue;const rr=z.r+3*U;
       if(hit(z,b,rr)||hit(z,{x:b.x-b.vx*dt/2,y:b.y-b.vy*dt/2},rr)){
-        b.l=0;if(b.syr){if(z.boss)z.slow=Math.max(z.slow||0,3);else befriend(z);break}if(b.gr){boomG(b);break}let dmg=modOneShot?99999:applyCoatingHit(z);
+        b.l=0;if(b.syr){if(z.boss)z.slow=Math.max(z.slow||0,3);else befriend(z);break}if(b.gr){boomG(b);break}let dmg=applyCoatingHit(z);
         z.hp-=dmg;z.hit=.07;z.x+=b.vx*.0035;z.y+=b.vy*.0035;splat(b.x,b.y,3);
         if(z.hp<=0)kill(z);break;
       }
@@ -625,7 +615,17 @@ function draw(){
   }
   for(const f of fx){ctx.globalAlpha=f.l/f.m*.6;ctx.fillStyle='#ffb347';dot(f.x,f.y,f.r*(1-f.l/f.m*.5));ctx.globalAlpha=1}
   for(const b of bullets){
-    if(b.syr||b.gr){ctx.save();ctx.fillStyle=b.syr?'#ff6fae':'#ff8a3d';dot(b.x,b.y,(b.syr?4:6)*U);if(b.syr){ctx.fillStyle='#fff';dot(b.x,b.y,1.8*U)}ctx.restore();continue}
+    if(b.syr){
+      // A distinct, elongated dart sprite makes all three syringe projectiles easy to see.
+      ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));
+      ctx.shadowColor='#ff6fae';ctx.shadowBlur=8*U;
+      ctx.fillStyle='#ff6fae';ctx.fillRect(-7*U,-2.5*U,11*U,5*U);
+      ctx.fillStyle='#fff1f7';ctx.fillRect(1*U,-1.25*U,7*U,2.5*U);
+      ctx.fillStyle='#d6e7ff';ctx.beginPath();ctx.moveTo(8*U,-2.5*U);ctx.lineTo(12*U,0);ctx.lineTo(8*U,2.5*U);ctx.closePath();ctx.fill();
+      ctx.fillStyle='#ffd0e4';ctx.fillRect(-9*U,-3.5*U,2*U,7*U);
+      ctx.restore();continue;
+    }
+    if(b.gr){ctx.save();ctx.fillStyle='#ff8a3d';ctx.shadowColor='#ff8a3d';ctx.shadowBlur=8*U;dot(b.x,b.y,6*U);ctx.restore();continue}
     const colors={fire:'#ff642e',ice:'#79e8ff',electric:'#fff36a',toxic:'#b7ff45'};
     const col=colors[b.coat]||'#ffe9a0';
     ctx.save();ctx.lineCap='round';ctx.strokeStyle=col;ctx.globalAlpha=b.coat?.9:.75;ctx.lineWidth=(b.coat?4:2)*U;
