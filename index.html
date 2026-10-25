@@ -16,7 +16,27 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 #hud button{pointer-events:auto;width:44px;height:44px;margin-left:6px;border-radius:12px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:#fff;font-size:17px}
 #coat{width:auto!important;min-width:82px;padding:0 8px;font-size:10px!important;font-weight:800;letter-spacing:.3px}
 #coat.active{border-color:#b7ff58;background:rgba(91,125,35,.55)}
-#modBtn{width:auto;padding:0 10px;font-size:11px;font-weight:800;letter-spacing:.4px}
+#pop{position:fixed;inset:0;z-index:18;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px;background:rgba(6,8,5,.92)}
+#pop[hidden]{display:none}
+#pop h1{margin:0;font-size:clamp(28px,8vw,46px);line-height:1.12;color:#ffd36b}
+#px{margin:0;max-width:34ch;opacity:.92;line-height:1.5;white-space:pre-line}
+#pb{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px;margin-top:10px}
+#pb button{padding:15px;border:0;border-radius:14px;font:inherit;font-size:18px;font-weight:800;color:#fff;background:#ff5a4a}
+#pb button.alt{background:#526e36}
+@keyframes dfade{from{opacity:0;letter-spacing:.32em}to{opacity:1;letter-spacing:.06em}}
+#pop.dead{background:radial-gradient(circle at 50% 38%,#3d0e11 0%,#0a0506 78%)}
+#pop.dead h1{color:#ff3b3b;font-size:clamp(46px,14vw,88px);text-shadow:0 0 26px rgba(255,40,40,.55);animation:dfade 2.4s ease both}
+#pop.dead #px{font-style:italic;color:#e9caca;opacity:0;animation:cfade 2s ease 1.6s forwards}
+#pop.dead #pb{opacity:0;animation:cfade 1s ease 3.4s forwards}
+@keyframes cfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#ps{display:none}
+#pop.calm{background:linear-gradient(180deg,#1b1830 0%,#5a3a52 48%,#e9a566 100%)}
+#pop.calm #ps{display:block;width:min(72vw,260px);opacity:0;animation:cfade 3s ease forwards}
+#pop.calm h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:.14em;color:#ffe9c7;text-shadow:0 2px 18px rgba(0,0,0,.35);opacity:0;animation:cfade 3s ease 1s forwards}
+#pop.calm #px{font-family:Georgia,"Times New Roman",serif;font-size:17px;line-height:1.7;color:#fbe9d2}
+#pop.calm #px span{display:block;margin:.7em 0;opacity:0;animation:cfade 2.4s ease forwards}
+#pop.calm #pb{opacity:0;animation:cfade 2s ease 9.5s forwards}
+#pop.calm #pb button{background:rgba(255,233,199,.16);border:1px solid rgba(255,233,199,.5);color:#ffe9c7;font-weight:600;letter-spacing:.06em}
 #modBackdrop{position:fixed;inset:0;z-index:19;background:rgba(0,0,0,.72)}
 #modPanel{position:fixed;z-index:20;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100vw - 36px);max-width:320px;max-height:70dvh;overflow-y:auto;background:#11180f;border:1px solid #71875e;border-radius:12px;padding:8px;box-shadow:0 12px 36px #000c;touch-action:pan-y}
 #modPanel .modhead{display:flex;align-items:center;justify-content:space-between;gap:6px;padding-bottom:5px;border-bottom:1px solid #394634;margin-bottom:5px}
@@ -61,16 +81,17 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 <canvas id="c"></canvas>
 <div id="hud">
   <div><div id="sc">0</div><small id="pl">Diljaan’s health</small><div id="hb"><i id="hf"></i></div><small id="wp"></small><small id="wv"></small></div>
-  <div><button id="modBtn" aria-label="Open admin menu">A</button><button id="coat" aria-label="Toggle bullet coating">COAT: —</button><button id="mu" aria-label="Sound">♪</button><button id="pa" aria-label="Pause">❚❚</button></div>
+  <div><button id="coat" aria-label="Toggle bullet coating">COAT: —</button><button id="mu" aria-label="Sound">♪</button><button id="pa" aria-label="Pause">❚❚</button></div>
 </div>
 <div id="bb" hidden><div id="bnm"></div><div id="bbar"><i id="bf"></i></div></div>
 <div id="bn"></div>
 <div id="ui">
   <h1 id="tt">Dead Zone</h1>
-  <p id="tx">Left thumb moves. Right thumb aims and finish em.</p>
+  <p id="tx">Left thumb moves. Right thumb aims and shoots. Open ADMIN MENU for tester controls; joystick bases stay anchored to where you first touch.</p>
   <button id="go">Play</button>
-  <div id="tip">Keyboard: WASD + mouse, P to pause</div>
+  <div id="tip">Elemental zombies appear only in the city (level 6+), mutants from level 8. City-only weapons: Love Syringe and Grenade Launcher. ADMIN MENU: weapons, coatings, cheats, level and spawns. Keyboard: WASD + mouse, P to pause</div>
 </div>
+<div id="pop" hidden><svg id="ps" viewBox="0 0 200 110" aria-hidden="true"><circle cx="100" cy="64" r="26" fill="#ffd9a0" opacity=".9"/><path d="M0 84Q50 66 100 80T200 76V110H0Z" fill="#4a3446"/><path d="M0 96Q60 84 120 94T200 90V110H0Z" fill="#2c2233"/><rect x="72" y="66" width="56" height="30" fill="#6b4636"/><path d="M66 67L100 42L134 67Z" fill="#3b2420"/><rect x="118" y="46" width="7" height="14" fill="#3b2420"/><rect x="94" y="78" width="12" height="18" fill="#ffcf70"/><rect x="78" y="74" width="10" height="9" fill="#ffd98a"/><rect x="112" y="74" width="10" height="9" fill="#ffd98a"/><g fill="#1c1420"><circle cx="146" cy="88" r="2.6"/><rect x="144" y="91" width="4" height="9" rx="1.5"/><circle cx="154" cy="90" r="2"/><rect x="152.5" y="92.5" width="3" height="7" rx="1.2"/><circle cx="138" cy="91" r="1.7"/><rect x="136.8" y="93" width="2.5" height="6" rx="1"/></g></svg><h1 id="pt"></h1><p id="px"></p><div id="pb"></div></div>
 <div id="modBackdrop" hidden></div>
 <div id="modLock" hidden>
   <h2>Tester Access</h2>
@@ -84,7 +105,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
   <p class="modhint">Testing tools. Loadout and cheats apply immediately; starting level applies on the next new run.</p>
   <div class="modsection">LOADOUT</div>
   <label for="modWeapon">Weapon</label>
-  <select id="modWeapon"><option value="pistol">Pistol</option><option value="smg">SMG</option><option value="shotgun">Shotgun</option><option value="laser">Laser</option></select>
+  <select id="modWeapon"><option value="pistol">Pistol</option><option value="smg">SMG</option><option value="shotgun">Shotgun</option><option value="laser">Laser</option><option value="syringe">Love Syringe (city)</option><option value="gl">Grenade Launcher (city)</option></select>
   <label for="modCoating">Bullet coating</label>
   <select id="modCoating"><option value="">No coating</option><option value="fire">Fire</option><option value="ice">Ice</option><option value="electric">Electric / Shock</option><option value="toxic">Toxic</option></select>
   <div class="modactions"><button id="applyMod">Apply Loadout</button></div>
@@ -93,9 +114,9 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
   <div class="modrow"><label for="modInvincible">Invincibility <span id="invStatus" style="color:#a9e85d;font-size:11px">OFF</span></label><input id="modInvincible" type="checkbox"></div>
   <div class="modsection">WORLD CONTROL</div>
   <label for="modLevel">Starting level</label>
-  <select id="modLevel"><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option><option value="4">Level 4</option><option value="5">Level 5</option><option value="6">Level 6 — Frostfire Sovereign</option></select>
+  <select id="modLevel"><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option><option value="4">Level 4</option><option value="5">Level 5</option><option value="6">Level 6 — Frostfire Sovereign</option><option value="7">Level 7 — Rotting Titan</option><option value="8">Level 8 — Plague Doctor</option><option value="9">Level 9 — The Surgeon</option><option value="10">Level 10 — The Overlord</option></select>
   <label for="modZombie">Zombie type to spawn</label>
-  <select id="modZombie"><option value="w">Normal Zombie</option><option value="r">Runner</option><option value="b">Brute</option><option value="f">Fire Zombie</option><option value="i">Ice Zombie</option><option value="e">Electric Zombie</option><option value="x">Toxic Zombie</option></select>
+  <select id="modZombie"><option value="w">Normal Zombie</option><option value="r">Runner</option><option value="b">Brute</option><option value="f">Fire Zombie</option><option value="i">Ice Zombie</option><option value="e">Electric Zombie</option><option value="x">Toxic Zombie</option><option value="m">Mutant (strong, level 8+)</option></select>
   <div class="modactions"><button id="spawnMod">＋ Spawn Zombie</button></div>
   <div class="modactions"><button id="closeMod">Close Menu</button></div>
 </div>
@@ -105,7 +126,7 @@ const clamp=(v,a,b)=>v<a?a:v>b?b:v,rnd=(a,b)=>a+Math.random()*(b-a);
 const hit=(a,b,r)=>(a.x-b.x)**2+(a.y-b.y)**2<r*r;
 const dot=(x,y,r)=>{ctx.beginPath();ctx.arc(x,y,r,0,6.283);ctx.fill()};
 const poly=p=>{ctx.beginPath();p.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));ctx.closePath();ctx.fill()};
-const WP={pistol:{n:'Pistol',rate:.24,sp:.03,pel:1,life:.9,ammo:0},smg:{n:'SMG',rate:.085,sp:.1,pel:1,life:.8,ammo:90},shotgun:{n:'Shotgun',rate:.75,sp:.3,pel:7,life:.38,ammo:18},laser:{n:'Laser',rate:.09,sp:0,pel:1,life:0,ammo:120}};
+const WP={syringe:{n:'Love Syringe',rate:.55,sp:.01,pel:1,life:1.1,ammo:1},gl:{n:'Grenade Launcher',rate:.85,sp:.02,pel:1,life:.7,ammo:8},pistol:{n:'Pistol',rate:.24,sp:.03,pel:1,life:.9,ammo:0},smg:{n:'SMG',rate:.085,sp:.1,pel:1,life:.8,ammo:90},shotgun:{n:'Shotgun',rate:.75,sp:.3,pel:7,life:.38,ammo:18},laser:{n:'Laser',rate:.09,sp:0,pel:1,life:0,ammo:120}};
 const ZT={
  w:{r:14,hp:3,sp:55,dm:10,sc:10,c:'#7fa35b'},
  r:{r:12,hp:2,sp:125,dm:8,sc:20,c:'#b9c46a'},
@@ -113,7 +134,8 @@ const ZT={
  f:{r:17,hp:12,sp:52,dm:20,sc:35,c:'#ff713d',elem:'fire'},
  i:{r:17,hp:12,sp:39,dm:11,sc:35,c:'#71dcff',elem:'ice'},
  e:{r:15,hp:12,sp:72,dm:20,sc:40,c:'#f5e45c',elem:'electric'},
- x:{r:18,hp:12,sp:43,dm:14,sc:40,c:'#bb73d6',elem:'toxic'}
+ x:{r:18,hp:12,sp:43,dm:14,sc:40,c:'#bb73d6',elem:'toxic'},
+ m:{r:26,hp:36,sp:62,dm:30,sc:150,c:'#c2185b'}
 };
 const BOSS=[
  {n:'The Butcher',hp:60,r:34,sp:48,c:'#a8432f',ab:['charge'],cd:3.2},
@@ -121,11 +143,15 @@ const BOSS=[
  {n:'Swarm Mother',hp:100,r:36,sp:38,c:'#a56ae0',ab:['summon'],cd:2.6},
  {n:'The Juggernaut',hp:130,r:40,sp:44,c:'#6c7d90',ab:['ring'],cd:3},
  {n:'Nightmare',hp:180,r:38,sp:55,c:'#d1303a',ab:['charge','burst','summon'],cd:2.4},
- {n:'Frostfire Sovereign',hp:250,r:44,sp:50,c:'#c56cff',ab:['nova','burst','summon'],cd:2.15,keep:185}
+ {n:'Frostfire Sovereign',hp:250,r:44,sp:50,c:'#c56cff',ab:['nova','burst','summon'],cd:2.15,keep:185},
+ {n:'Rotting Titan',hp:320,r:48,sp:46,c:'#8f9a3a',ab:['charge','quake'],cd:2.1},
+ {n:'Plague Doctor',hp:390,r:34,sp:60,c:'#4fd1a5',ab:['barrage','summonE','spiral'],cd:1.7,keep:220},
+ {n:'The Surgeon',hp:460,r:36,sp:68,c:'#e9edf5',ab:['blink','barrage','charge'],cd:1.7},
+ {n:'The Overlord',hp:560,r:46,sp:56,c:'#ff3b3b',ab:['nova','spiral','charge','quake','blink','summonE'],cd:1.5}
 ];
 let W,H,U,P=null,st='menu',t=0,score=0,kills=0,best=0,wave=0,toSpawn=0,spawnT=0,clearT=0,shake=0,hurtT=0,fireT=0,flash=0;
 let bullets=[],zs=[],pu=[],decals=[],parts=[],eb=[],rings=[],lvl=1,wInL=0,boss=null,beam=null,ac=null,nb=null,mute=false;
-let modOneShot=false,modInvincible=false,modStartLevel=1;
+let modOneShot=false,modInvincible=false,modStartLevel=1,cityOn=false,human=null,failMsg='',seenM=false,fx=[];
 const keys={},mouse={x:0,y:0,down:0,on:0},sticks={move:null,aim:null},isTouch='ontouchstart' in window;
 try{best=+localStorage.getItem('deadZoneBest')||0}catch(e){}
 
@@ -163,7 +189,7 @@ function hud(){
   const cb=$('coat');
   if(P&&P.coat&&P.coatT>0){const names={fire:'🔥 FIRE',ice:'❄ ICE',electric:'⚡ SHOCK',toxic:'☣ TOXIC'};cb.textContent=(P.coatOn?'ON ':'OFF ')+names[P.coat];cb.classList.toggle('active',P.coatOn)}
   else{cb.textContent='COAT: —';cb.classList.remove('active')}
-  $('wv').textContent='Level '+Math.min(lvl,6)+(boss?', boss fight':', wave '+wInL+'/2')+', kills '+kills;
+  $('wv').textContent='Level '+Math.min(lvl,10)+(cityOn&&lvl>=6&&lvl<=10?' ('+TH[lvl-6].n+')':'')+(boss?', boss fight':', wave '+wInL+'/'+wavesIn(lvl))+(human?', protect the survivor':'')+', kills '+kills;
 }
 function show(title,text,btn,tip){
   $('tt').textContent=title;$('tx').textContent=text;$('tx').hidden=!text;
@@ -172,15 +198,21 @@ function show(title,text,btn,tip){
 function banner(s){const b=$('bn');b.textContent=s;b.classList.remove('on');void b.offsetWidth;b.classList.add('on')}
 function reset(){
   t=0;score=0;kills=0;wave=0;toSpawn=0;spawnT=0;clearT=0;shake=0;hurtT=0;fireT=0;flash=0;
-  bullets=[];zs=[];pu=[];decals=[];parts=[];eb=[];rings=[];lvl=clamp(modStartLevel,1,6);wInL=0;boss=null;beam=null;$('bb').hidden=true;sticks.move=sticks.aim=null;mouse.down=0;
+  bullets=[];zs=[];pu=[];decals=[];parts=[];eb=[];rings=[];fx=[];human=null;failMsg='';seenM=false;lvl=clamp(modStartLevel,1,10);cityOn=lvl>=6;wInL=0;boss=null;beam=null;$('bb').hidden=true;sticks.move=sticks.aim=null;mouse.down=0;
   P={x:W/2,y:H/2,a:-1.57,hp:100,inv:0,wp:'pistol',ammo:0,coat:'',coatT:0,coatOn:false,slow:0,toxicT:0};hud();
-  if(lvl===6){clearT=99;startBoss()}else{clearT=1.7}
+  if(lvl>=6){clearT=99;if(lvl===7)mkHuman();startBoss()}else{clearT=1.7}
 }
 function pause(){if(st==='play'){st='pause';sticks.move=sticks.aim=null;mouse.down=0;show('Paused','','Resume',false)}}
 function over(win){
   st='over';$('bb').hidden=true;const nb2=score>best;
   if(nb2){best=score;try{localStorage.setItem('deadZoneBest',best)}catch(e){}}
-  hud();show(win?'Game Complete!':'You were overrun','Level '+(win?6:Math.min(lvl,6))+', kills '+kills+'. Score '+score+(nb2?'. New best!':'. Best '+best+'.'),'Play again',false);
+  hud();
+  if(!win&&!failMsg&&cityOn&&lvl>=6){
+    tone(70,1.6,'sawtooth',.07,-35);
+    pop('You Died','Why did you choose the path of a hero... when you were unfit for it\n\nLevel '+Math.min(lvl,10)+', kills '+kills+'. Score '+score+(nb2?'. New best!':'. Best '+best+'.'),[['Try again',()=>{closePop();$('go').click()}]],'dead');
+    return;
+  }
+  show(failMsg||(win?'Game Complete!':'You were overrun'),'Level '+Math.min(lvl,10)+', kills '+kills+'. Score '+score+(nb2?'. New best!':'. Best '+best+'.'),'Play again',false);
 }
 $('go').onclick=()=>{initAudio();modStartLevel=+$('modLevel').value;modOneShot=$('modOneShot').checked;modInvincible=$('modInvincible').checked;if(st==='pause'){st='play'}else{reset();st='play'}$('ui').hidden=true};
 $('coat').onclick=()=>{if(!P||st!=='play'||!P.coat||P.coatT<=0)return;P.coatOn=!P.coatOn;hud()};
@@ -198,7 +230,6 @@ function unlockMod(){
     modUnlocked=true;$('modLock').hidden=true;$('modPanel').hidden=false;$('modLockErr').textContent='';
   }else{$('modLockErr').textContent='Incorrect password';$('modPassword').value=''}
 }
-$('modBtn').onclick=()=>setModOpen($('modPanel').hidden&&$('modLock').hidden);
 $('unlockMod').onclick=unlockMod;
 $('modPassword').addEventListener('keydown',e=>{if(e.key==='Enter')unlockMod()});
 $('closeMod').onclick=()=>setModOpen(false);
@@ -286,7 +317,7 @@ function shoot(){
   const w=WP[P.wp];fireT=w.rate;let base=P.a;
   if(w.pel===1){
     let bd=.1;
-    for(const z of zs){const a2=Math.atan2(z.y-P.y,z.x-P.x),da=Math.abs(Math.atan2(Math.sin(a2-P.a),Math.cos(a2-P.a)));
+    for(const z of zs){if(z.ally)continue;const a2=Math.atan2(z.y-P.y,z.x-P.x),da=Math.abs(Math.atan2(Math.sin(a2-P.a),Math.cos(a2-P.a)));
       if(da<bd&&Math.hypot(z.x-P.x,z.y-P.y)<700*U){bd=da;base=a2}}
   }
   const mx=P.x+Math.cos(P.a)*28*U,my=P.y+Math.sin(P.a)*28*U;
@@ -294,15 +325,15 @@ function shoot(){
     beam={a:base,t:.1};const c=Math.cos(base),sn=Math.sin(base),L=900*U;
     for(const z of zs){
       const dx=z.x-mx,dy=z.y-my,pr=dx*c+dy*sn;
-      if(!z.dead&&pr>0&&pr<L&&Math.abs(-dx*sn+dy*c)<z.r+4*U){
+      if(!z.dead&&!z.ally&&pr>0&&pr<L&&Math.abs(-dx*sn+dy*c)<z.r+4*U){
         let dmg=modOneShot?99999:applyCoatingHit(z);
         z.hp-=dmg;z.hit=.05;splat(z.x,z.y,1);if(z.hp<=0)kill(z)}
     }
     tone(240+rnd(0,40),.07,'sawtooth',.025,60);
   }else{
     for(let i=0;i<w.pel;i++){
-      const a=base+(Math.random()-.5)*w.sp*2,v=850*U*rnd(.95,1.05);
-      bullets.push({x:mx,y:my,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:w.life,coat:(P.coatOn&&P.coatT>0)?P.coat:''});
+      const a=base+(Math.random()-.5)*w.sp*2,v=(P.wp==='syringe'?620:P.wp==='gl'?520:850)*U*rnd(.95,1.05);
+      bullets.push({x:mx,y:my,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:w.life,coat:(P.coatOn&&P.coatT>0)?P.coat:'',syr:P.wp==='syringe',gr:P.wp==='gl'});
     }
     flash=.05;shake=Math.max(shake,w.pel>1?.12:.03);
     noise(w.pel>1?.22:.09,w.pel>1?.35:.18);
@@ -312,20 +343,21 @@ function shoot(){
 function spawnZ(){
   const side=Math.random()*4|0,m=30;let x,y;
   if(side<2){x=rnd(0,W);y=side?H+m:-m}else{y=rnd(0,H);x=side===2?-m:W+m}
-  const r=Math.random(),bc=wave>=3?Math.min(.2,.04+.02*wave):0,rc=wave>=2?Math.min(.35,.08*wave):0;
+  const r=Math.random(),bc=wave>=3?Math.min(lvl>6?.3:.2,.04+.02*wave):0,rc=wave>=2?Math.min(lvl>6?.4:.35,.08*wave):0;
   let k=r<bc?'b':r<bc+rc?'r':'w';
-  // Level 4: increased elemental frequency. Level 5: every regular spawn is elemental.
-  const elementalChance = lvl===4 ? 0.40 : (lvl===5 ? 1.00 : (lvl>=6 ? 0.085 : 0));
+  // Elemental zombies only appear in the city (level 6+).
+  const elementalChance = cityOn&&lvl>=6 ? 0.15+Math.min(lvl-6,4)*.07+Math.max(0,wInL-1)*.03 : 0;
   if(Math.random()<elementalChance){const e=Math.random();k=e<.25?'f':e<.50?'i':e<.75?'e':'x'}
+  if(cityOn&&lvl>=8&&Math.random()<.06+(lvl-8)*.04+Math.max(0,wInL-1)*.02&&zs.filter(q=>q.k==='m'&&!q.ally).length<3){k='m';if(!seenM){seenM=true;banner('Mutants have appeared!')}}
   zs.push(mkZ(k,x,y));
 }
 function mkZ(k,x,y){
-  const T=ZT[k],f=k==='b'?0:Math.min(wave*3,40);
-  return{x,y,k,elem:T.elem||'',r:T.r*U,hp:T.hp,sp:(T.sp+f)*U,dm:T.dm,sc:T.sc,c:T.c,cd:0,hit:0,a:0,wb:rnd(0,6),burn:0,slow:0};
+  const T=ZT[k],f=(k==='b'||k==='m')?0:Math.min(wave*3,40+Math.max(0,lvl-6)*6);
+  return{x,y,k,elem:T.elem||'',r:T.r*U,hp:T.hp*(lvl>6?(1+(lvl-6)*.15)*(1+Math.max(0,wInL-1)*.08):1),sp:(T.sp+f)*U,dm:T.dm,sc:T.sc,c:T.c,cd:0,hit:0,a:0,wb:rnd(0,6),burn:0,slow:0};
 }
 function startBoss(){
   const B=BOSS[lvl-1],r=B.r*U;
-  boss={x:W/2,y:-r,k:'B',boss:1,bk:lvl-1,r,hp:B.hp,max:B.hp,sp:B.sp*U,dm:20,sc:500,c:B.c,cd:0,hit:0,a:0,wb:0,t2:2,i:0,wind:0,dash:0,da:0,keep:(B.keep||0)*U};
+  boss={x:W/2,y:-r,k:'B',boss:1,bk:lvl-1,r,hp:B.hp,max:B.hp,sp:B.sp*U,dm:20+Math.max(0,lvl-6)*3,sc:500+(lvl-1)*100,c:B.c,cd:0,hit:0,a:0,wb:0,t2:2,i:0,wind:0,dash:0,da:0,keep:(B.keep||0)*U};
   zs.push(boss);banner(B.n);$('bnm').textContent=B.n;$('bb').hidden=false;
   P.hp=Math.min(100,P.hp+15);hud();
 }
@@ -347,6 +379,11 @@ function bossAI(z,dt,dx,dy,d){
       }
       else if(ab==='summon'){if(zs.length<14)for(let i=0;i<3;i++)zs.push(mkZ('r',z.x+rnd(-40,40),z.y+rnd(-40,40)))}
       else if(ab==='ring')rings.push({x:z.x,y:z.y,rr:z.r,h:0});
+      else if(ab==='barrage'){const bd=12+Math.max(0,lvl-6)*2;for(let i=0;i<5;i++){const a=z.a+(i-2)*.14;eb.push({x:z.x,y:z.y,vx:Math.cos(a)*330*U,vy:Math.sin(a)*330*U,dm:bd})}}
+      else if(ab==='spiral'){const bd=12+Math.max(0,lvl-6)*2,a0=rnd(0,6.283);for(let i=0;i<18;i++){const a=a0+i*.35,sp=(130+i*9)*U;eb.push({x:z.x,y:z.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,dm:bd})}}
+      else if(ab==='quake'){rings.push({x:z.x,y:z.y,rr:z.r,h:0},{x:z.x,y:z.y,rr:z.r+90*U,h:0})}
+      else if(ab==='blink'){const a=rnd(0,6.283);z.x=clamp(P.x+Math.cos(a)*190*U,z.r,W-z.r);z.y=clamp(P.y+Math.sin(a)*190*U,z.r,H-z.r);rings.push({x:z.x,y:z.y,rr:z.r,h:0});tone(300,.2,'sine',.08,400)}
+      else if(ab==='summonE'){if(zs.length<14)for(let i=0;i<3;i++)zs.push(mkZ('fiex'[Math.random()*4|0],z.x+rnd(-40,40),z.y+rnd(-40,40)))}
       else if(ab==='nova'){
         rings.push({x:z.x,y:z.y,rr:z.r,h:0,slow:true});
         for(let i=0;i<10;i++){const a=i/10*6.283;eb.push({x:z.x,y:z.y,vx:Math.cos(a)*205*U,vy:Math.sin(a)*205*U})}
@@ -355,11 +392,74 @@ function bossAI(z,dt,dx,dy,d){
   }
   z.x=clamp(z.x,z.r,W-z.r);z.y=Math.min(z.y,H-z.r);
 }
+const TH=[
+ {n:'Downtown',bg:'#22262d',ln:'rgba(255,255,255,.05)',k:'road',ac:'#d9b84a'},
+ {n:'Factory District',bg:'#2a2320',ln:'rgba(255,170,80,.08)',k:'plate',ac:'#e08a2c'},
+ {n:'Subway',bg:'#112126',ln:'rgba(120,230,230,.1)',k:'rail',ac:'#3fb7c0'},
+ {n:'Hospital',bg:'#2b3138',ln:'rgba(255,255,255,.07)',k:'check',ac:'#9fd3c7'},
+ {n:'City Hall',bg:'#2a1213',ln:'rgba(255,90,70,.1)',k:'ember',ac:'#ff5a3c'}
+];
+function drawBG(){
+  const th=cityOn&&lvl>=6?TH[Math.min(lvl,10)-6]:null,g=80*U;
+  ctx.fillStyle=th?th.bg:'#1f2619';ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle=th?th.ln:'rgba(255,255,255,.035)';ctx.lineWidth=1;ctx.beginPath();
+  for(let x=0;x<W;x+=g){ctx.moveTo(x,0);ctx.lineTo(x,H)}for(let y=0;y<H;y+=g){ctx.moveTo(0,y);ctx.lineTo(W,y)}ctx.stroke();
+  if(!th)return;
+  ctx.fillStyle=th.ac;ctx.globalAlpha=.3;
+  if(th.k==='road'){for(let y=0;y<H;y+=44*U)ctx.fillRect(W/2-2*U,y,4*U,24*U);for(let x=0;x<W;x+=44*U)ctx.fillRect(x,H/2-2*U,24*U,4*U)}
+  else if(th.k==='plate'){for(let x=0;x<W;x+=24*U){ctx.fillRect(x,0,12*U,8*U);ctx.fillRect(x+12*U,H-8*U,12*U,8*U)}}
+  else if(th.k==='rail'){for(const y of [H*.3,H*.7]){ctx.fillRect(0,y,W,3*U);ctx.fillRect(0,y+16*U,W,3*U);for(let x=0;x<W;x+=18*U)ctx.fillRect(x,y-2*U,5*U,22*U)}}
+  else if(th.k==='check'){ctx.globalAlpha=.07;for(let i=0,x=0;x<W;x+=g,i++)for(let j=0,y=0;y<H;y+=g,j++)if((i+j)%2)ctx.fillRect(x,y,g,g)}
+  else{const q=ctx.createLinearGradient(0,H,0,0);q.addColorStop(0,'rgba(255,80,40,'+(.28+.06*Math.sin(t*3))+')');q.addColorStop(.6,'rgba(255,80,40,0)');ctx.globalAlpha=1;ctx.fillStyle=q;ctx.fillRect(0,0,W,H)}
+  ctx.globalAlpha=1;
+}
+function pop(title,text,btns,cls){
+  $('pop').className=cls||'';$('pt').textContent=title;const b=$('pb');b.innerHTML='';
+  if(cls==='calm'){const x=$('px');x.innerHTML='';text.split('\n').filter(Boolean).forEach((l,i)=>{const e=document.createElement('span');e.textContent=l;e.style.animationDelay=(2.5+i*2)+'s';x.appendChild(e)})}
+  else $('px').textContent=text;
+  for(const [l,f,c] of btns){const e=document.createElement('button');e.textContent=l;if(c)e.className=c;e.onclick=f;b.appendChild(e)}
+  $('pop').hidden=false;
+}
+function closePop(){$('pop').hidden=true}
+function endPop(title,text,cls){
+  st='over';$('bb').hidden=true;sticks.move=sticks.aim=null;mouse.down=0;
+  if(score>best){best=score;try{localStorage.setItem('deadZoneBest',best)}catch(e){}}
+  hud();pop(title,text+'\n\nScore '+score+', kills '+kills+'. Best '+best+'.',[['Play again',()=>{closePop();$('go').click()}]],cls);
+  if(cls==='calm')[262,330,392,523].forEach((f,i)=>setTimeout(()=>tone(f,3.2,'sine',.04),i*700));
+}
+function congrats(){
+  st='pop';sticks.move=sticks.aim=null;mouse.down=0;
+  pop('Congratulations, you survived!','You cleared the first 5 levels, but the city is still overrun. What will you do?',[
+    ['Go home',()=>{closePop();endPop('Welcome Home','You survived and made it back to your farmhouse with your family.\nA few zombies attacked, but fortunately you were there to defend your family...\nNow you live your days in peace, farming and living with your family.','calm')}],
+    ['Try to save the city',()=>{closePop();cityOn=true;st='play';pu.push({x:P.x-50*U,y:P.y-70*U,l:60,k:'Y'},{x:P.x+50*U,y:P.y-70*U,l:60,k:'B'});nextWave()},'alt']]);
+}
+const wavesIn=l=>l<=6?2:l-4;
 function nextWave(){
-  if(lvl>6){over(true);return}
-  if(wInL>=2){startBoss();return}
-  wInL++;wave++;toSpawn=Math.min(5+wave*3,34);spawnT=0;banner(wInL===1?'Level '+lvl:'Wave '+wInL);
+  if(lvl>10){endPop('A hero who saved everyone but his own loved ones','You became a hero, but you weren’t there to protect the ones who were most important to you. They all died... was it worth it?');return}
+  if(lvl===6&&!cityOn){congrats();return}
+  if(lvl===7&&!human&&wInL===0)mkHuman();
+  if(wInL>=wavesIn(lvl)){startBoss();return}
+  wInL++;wave++;toSpawn=Math.min(5+wave*3,34)+(lvl>6?(lvl-6)*4+(wInL-1)*2:0);spawnT=0;banner(wInL===1?(lvl===7?'Level 7: protect the survivor':'Level '+lvl):'Wave '+wInL);
   if(P.hp<100)P.hp=Math.min(100,P.hp+15);hud();
+}
+function mkHuman(){human={x:P.x+60*U,y:P.y+40*U,hp:100,max:100,hit:0}}
+function hurtH(n){
+  if(!human||st==='over'||modInvincible)return;
+  human.hp-=n;human.hit=.12;splat(human.x,human.y,4);
+  if(human.hp<=0){failMsg='The survivor didn’t make it';over()}
+}
+function befriend(z){
+  z.ally=1;z.hp=Math.max(z.hp,(ZT[z.k]?ZT[z.k].hp:10)*(lvl>6?1+(lvl-6)*.15:1))+8;
+  z.burn=0;z.slow=0;z.cd=0;z.effectT=0;z.c='#ff8fc2';z.sc=0;z.sp*=1.15;
+  splat(z.x,z.y,12);tone(520,.25,'triangle',.07,300);
+}
+function boomG(b){
+  b.gr=0;b.l=0;const R=85*U;
+  fx.push({x:b.x,y:b.y,r:R,l:.35,m:.35});shake=Math.max(shake,.3);noise(.35,.5);splat(b.x,b.y,18);
+  for(const z of zs){
+    if(z.dead||z.ally)continue;const d=Math.hypot(z.x-b.x,z.y-b.y);
+    if(d<R+z.r){z.hp-=modOneShot?99999:10*applyCoatingHit(z)*(1-.5*d/(R+z.r));z.hit=.1;if(z.hp<=0)kill(z)}
+  }
 }
 function hurt(n){
   if(P.inv>0)return;
@@ -374,12 +474,14 @@ function kill(z){
     if(z.bk===2){const ck=['F','I','E','T'][Math.floor(Math.random()*4)];pu.push({x:z.x,y:z.y-28*U,l:30,k:ck})}
     boss=null;$('bb').hidden=true;eb=[];rings=[];
     for(const q of zs)if(q!==z&&!q.dead){q.dead=1;splat(q.x,q.y,6)}
-    banner('Level '+lvl+' clear!');P.hp=Math.min(100,P.hp+40);lvl++;wInL=0;
+    banner('Level '+lvl+' clear!'+(human?' Survivor saved!':''));human=null;P.hp=Math.min(100,P.hp+40);lvl++;wInL=0;
     pu.push({x:z.x,y:z.y,l:25,k:'L'},{x:z.x+34*U,y:z.y,l:25,k:'H'});
+    if(cityOn)pu.push({x:z.x-34*U,y:z.y,l:25,k:z.bk%2?'Y':'B'});
   }
   decals.push({x:z.x,y:z.y,r:rnd(7,14)*U*(z.k==='b'?1.6:1),a:rnd(0,6)});if(decals.length>140)decals.shift();
   tone(rnd(60,100),.3,'sawtooth',.05,-25);
   if(z.k==='b'||Math.random()<.1){const r=Math.random();pu.push({x:z.x,y:z.y,l:12,k:r<.3?'H':r<.55?'S':r<.8?'G':'L'})}
+  if(cityOn&&!z.boss&&Math.random()<(z.elem||z.k==='m'?.07:.025))pu.push({x:z.x+rnd(-10,10),y:z.y+rnd(-10,10),l:14,k:Math.random()<.5?'Y':'B'});
   // Elemental zombies have a 5% chance to drop their matching coating.
   if(z.elem&&Math.random()<.05){pu.push({x:z.x+rnd(-10,10),y:z.y+rnd(-10,10),l:12,k:({fire:'F',ice:'I',electric:'E',toxic:'T'})[z.elem]})}
   // Non-elemental regular zombies have a 2% chance to drop a random coating.
@@ -393,8 +495,8 @@ function update(dt){
   if(P.toxicT>0&&!modInvincible){P.hp=Math.max(0,P.hp-4*dt);if(P.hp<=0){hud();over();return}}
   if(modInvincible)P.hp=100;
   if(P.coatT>0){P.coatT-=dt;if(P.coatT<=0){P.coat='';P.coatOn=false;hud()}}
-  if(toSpawn>0){spawnT-=dt;if(spawnT<=0){spawnZ();toSpawn--;spawnT=Math.max(.3,1.1-wave*.06)}}
-  else if(!zs.length){clearT+=dt;if(clearT>2.2){clearT=0;nextWave()}}
+  if(toSpawn>0){spawnT-=dt;if(spawnT<=0){spawnZ();toSpawn--;spawnT=Math.max(lvl>6?.22:.3,1.1-wave*.06)}}
+  else if(!zs.some(q=>!q.ally)){clearT+=dt;if(clearT>2.2){clearT=0;nextWave()}}
   /* move */
   let mx=0,my=0;const sm=vec(sticks.move);
   if(sm&&sm.d>6){mx=Math.cos(sm.a)*sm.m;my=Math.sin(sm.a)*sm.m}
@@ -415,28 +517,42 @@ function update(dt){
   for(const b of bullets){
     b.x+=b.vx*dt;b.y+=b.vy*dt;b.l-=dt;
     for(const z of zs){
-      if(z.dead)continue;const rr=z.r+3*U;
+      if(z.dead||z.ally)continue;const rr=z.r+3*U;
       if(hit(z,b,rr)||hit(z,{x:b.x-b.vx*dt/2,y:b.y-b.vy*dt/2},rr)){
-        b.l=0;let dmg=modOneShot?99999:applyCoatingHit(z);
+        b.l=0;if(b.syr){if(z.boss)z.slow=Math.max(z.slow||0,3);else befriend(z);break}if(b.gr){boomG(b);break}let dmg=modOneShot?99999:applyCoatingHit(z);
         z.hp-=dmg;z.hit=.07;z.x+=b.vx*.0035;z.y+=b.vy*.0035;splat(b.x,b.y,3);
         if(z.hp<=0)kill(z);break;
       }
     }
   }
+  for(const b of bullets)if(b.gr&&b.l<=0)boomG(b);
   bullets=bullets.filter(b=>b.l>0&&b.x>-30&&b.x<W+30&&b.y>-30&&b.y<H+30);
+  if(human){
+    human.hit=Math.max(0,human.hit-dt);
+    const hx=P.x-human.x,hy=P.y-human.y,hd=Math.hypot(hx,hy)||1;let vx=0,vy=0;
+    if(hd>90*U){vx=hx/hd;vy=hy/hd}else if(hd<50*U){vx=-hx/hd*.5;vy=-hy/hd*.5}
+    for(const z of zs){if(z.dead||z.ally)continue;const zx=human.x-z.x,zy=human.y-z.y,zd=Math.hypot(zx,zy)||1;if(zd<90*U){vx+=zx/zd*1.2;vy+=zy/zd*1.2}}
+    const vl=Math.hypot(vx,vy);if(vl>1){vx/=vl;vy/=vl}
+    human.x=clamp(human.x+vx*150*U*dt,12*U,W-12*U);human.y=clamp(human.y+vy*150*U*dt,12*U,H-12*U);
+  }
+  const fr=zs.filter(q=>q.ally&&!q.dead);if(human)fr.push(human);fr.push(P);
   /* zombies */
   for(const z of zs){
     if(z.dead)continue;
-    const dx=P.x-z.x,dy=P.y-z.y,d=Math.hypot(dx,dy)||1,wob=Math.sin(t*3+z.wb)*.17;
+    let T=P;
+    if(z.ally){let bd=1e9;T=null;for(const q of zs){if(q.dead||q.ally)continue;const dd=Math.hypot(q.x-z.x,q.y-z.y);if(dd<bd){bd=dd;T=q}}if(!T)T={x:P.x+Math.cos(t+z.wb)*70*U,y:P.y+Math.sin(t+z.wb)*70*U,fol:1}}
+    else if(!z.boss){let bd=1e9;for(const f of fr){const dd=Math.hypot(f.x-z.x,f.y-z.y);if(dd<bd){bd=dd;T=f}}}
+    const dx=T.x-z.x,dy=T.y-z.y,d=Math.hypot(dx,dy)||1,wob=Math.sin(t*3+z.wb)*.17;
     z.a=Math.atan2(dy,dx);z.hit=Math.max(0,z.hit-dt);z.effectT=Math.max(0,(z.effectT||0)-dt);z.cd-=dt;
     z.slow=Math.max(0,z.slow-dt);
     if(z.burn>0){z.burn-=dt;z.hp-=.75*dt;if(z.hp<=0){kill(z);continue}}
     if(z.boss)bossAI(z,dt,dx,dy,d);
     else if(d>z.r+12*U){const sp=z.sp*(z.slow>0?.52:1);z.x+=(dx/d-dy/d*wob)*sp*dt;z.y+=(dy/d+dx/d*wob)*sp*dt}
-    if(d<z.r+18*U&&z.cd<=0){
-      z.cd=z.boss?1:.8;hurt(z.dm);
-      if(z.elem==='ice')P.slow=Math.max(P.slow,2.5);
-      if(z.elem==='toxic')P.toxicT=Math.max(P.toxicT||0,3);
+    if(!T.fol&&d<z.r+(T.r||14*U)+4*U&&z.cd<=0){
+      z.cd=z.boss?1:.8;
+      if(T===P){hurt(z.dm);if(z.elem==='ice')P.slow=Math.max(P.slow,2.5);if(z.elem==='toxic')P.toxicT=Math.max(P.toxicT||0,3)}
+      else if(T===human)hurtH(z.dm*.7);
+      else{T.hp-=z.ally?z.dm*1.4:z.dm*.7;T.hit=.1;splat(T.x,T.y,4);if(T.hp<=0){if(z.ally)kill(T);else{T.dead=1;splat(T.x,T.y,10)}}}
     }
   }
   for(let i=0;i<zs.length;i++)for(let j=i+1;j<zs.length;j++){
@@ -444,9 +560,9 @@ function update(dt){
     if(d<m&&!a.boss&&!b.boss){const p=(m-d)/2/d;a.x-=dx*p;a.y-=dy*p;b.x+=dx*p;b.y+=dy*p}
   }
   zs=zs.filter(z=>!z.dead);
-  for(const b of eb){b.x+=b.vx*dt;b.y+=b.vy*dt;if(hit(b,P,19*U)){b.d=1;hurt(12)}}
+  for(const b of eb){b.x+=b.vx*dt;b.y+=b.vy*dt;if(hit(b,P,19*U)){b.d=1;hurt(b.dm||12)}else if(human&&hit(b,human,17*U)){b.d=1;hurtH((b.dm||12)*.8)}}
   eb=eb.filter(b=>!b.d&&b.x>-30&&b.x<W+30&&b.y>-30&&b.y<H+30);
-  for(const g of rings){g.rr+=320*U*dt;if(!g.h&&Math.abs(Math.hypot(P.x-g.x,P.y-g.y)-g.rr)<16*U){g.h=1;hurt(g.slow?22:18);if(g.slow)P.slow=2.5}}
+  for(const g of rings){g.rr+=320*U*dt;if(human&&!g.hh&&Math.abs(Math.hypot(human.x-g.x,human.y-g.y)-g.rr)<16*U){g.hh=1;hurtH(14)}if(!g.h&&Math.abs(Math.hypot(P.x-g.x,P.y-g.y)-g.rr)<16*U){g.h=1;hurt(g.slow?22:18);if(g.slow)P.slow=2.5}}
   rings=rings.filter(g=>g.rr<250*U);
   if(beam){beam.t-=dt;if(beam.t<=0)beam=null}
   if(boss)$('bf').style.width=Math.max(0,boss.hp/boss.max*100)+'%';
@@ -455,39 +571,38 @@ function update(dt){
     p.l-=dt;
     if(hit(p,P,28*U)){
       p.l=0;
-      if(p.k==='H')P.hp=Math.min(100,P.hp+30);
+      if(p.k==='H'){P.hp=Math.min(100,P.hp+30);if(human)human.hp=Math.min(human.max,human.hp+30)}
       else if(['F','I','E','T'].includes(p.k)){
         P.coat={F:'fire',I:'ice',E:'electric',T:'toxic'}[p.k];P.coatT=18;P.coatOn=true;
-      }else{P.wp={S:'smg',G:'shotgun',L:'laser'}[p.k];P.ammo=WP[P.wp].ammo}
+      }else{P.wp={S:'smg',G:'shotgun',L:'laser',Y:'syringe',B:'gl'}[p.k];P.ammo=WP[P.wp].ammo}
       tone(660,.14,'triangle',.07,500);hud();
     }
   }
   pu=pu.filter(p=>p.l>0);
   for(const p of parts){p.l-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.97;p.vy*=.97}
   parts=parts.filter(p=>p.l>0);
+  for(const f of fx)f.l-=dt;fx=fx.filter(f=>f.l>0);
 }
 
 /* drawing */
 function draw(){
-  ctx.fillStyle='#1f2619';ctx.fillRect(0,0,W,H);
-  ctx.strokeStyle='rgba(255,255,255,.035)';ctx.lineWidth=1;ctx.beginPath();
-  const g=80*U;for(let x=0;x<W;x+=g){ctx.moveTo(x,0);ctx.lineTo(x,H)}for(let y=0;y<H;y+=g){ctx.moveTo(0,y);ctx.lineTo(W,y)}ctx.stroke();
+  drawBG();
   ctx.save();if(shake>0)ctx.translate(rnd(-1,1)*shake*18,rnd(-1,1)*shake*18);
   ctx.fillStyle='rgba(120,20,20,.55)';
   for(const d of decals){ctx.save();ctx.translate(d.x,d.y);ctx.rotate(d.a);ctx.scale(1.4,1);dot(0,0,d.r);ctx.restore()}
   for(const p of pu){
     if(p.l<3&&((t*8)|0)%2)continue;
-    const pc={H:'#e0473c',S:'#f2c14e',L:'#4fd8ff',G:'#e07b39',F:'#ff713d',I:'#71dcff',E:'#f5e45c',T:'#bb73d6'};
+    const pc={H:'#e0473c',S:'#f2c14e',L:'#4fd8ff',G:'#e07b39',F:'#ff713d',I:'#71dcff',E:'#f5e45c',T:'#bb73d6',Y:'#ff6fae',B:'#ff8a3d'};
     ctx.fillStyle=pc[p.k]||'#e07b39';ctx.fillRect(p.x-16*U,p.y-11*U,32*U,22*U);
     ctx.fillStyle='#1a1a12';ctx.font='800 '+10*U+'px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(({H:'HP',S:'SMG',L:'LSR',G:'SG',F:'FIRE',I:'ICE',E:'SHK',T:'TOX'})[p.k]||'?',p.x,p.y+1);
+    ctx.fillText(({H:'HP',S:'SMG',L:'LSR',G:'SG',F:'FIRE',I:'ICE',E:'SHK',T:'TOX',Y:'LOVE',B:'GL'})[p.k]||'?',p.x,p.y+1);
   }
   for(const z of zs){
     ctx.save();ctx.translate(z.x,z.y);ctx.rotate(z.a);const r=z.r;
-    if(z.elem){ctx.globalAlpha=.22;ctx.fillStyle=z.c;dot(0,0,r*1.65);ctx.globalAlpha=1}
+    if(z.elem||z.k==='m'){ctx.globalAlpha=.22;ctx.fillStyle=z.c;dot(0,0,r*1.65);ctx.globalAlpha=1}
     ctx.fillStyle=z.hit>0||(z.wind>0&&((t*14)|0)%2)?'#fff':z.c;dot(r*.8,-r*.7,r*.38);dot(r*.8,r*.7,r*.38);dot(0,0,r);
     if(z.elem){ctx.fillStyle='#161b12';ctx.font='900 '+Math.max(8,9*U)+'px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(({fire:'F',ice:'I',electric:'E',toxic:'T'})[z.elem]||'',0,0)}
-    if(z.boss){ctx.fillStyle='rgba(0,0,0,.4)';const n=4+z.bk*2;for(let i=0;i<n;i++){const a=i/n*6.283;poly([[Math.cos(a-.13)*r,Math.sin(a-.13)*r],[Math.cos(a)*r*1.3,Math.sin(a)*r*1.3],[Math.cos(a+.13)*r,Math.sin(a+.13)*r]])}}
+    if(z.boss||z.k==='m'){ctx.fillStyle='rgba(0,0,0,.4)';const n=z.boss?4+z.bk*2:8;for(let i=0;i<n;i++){const a=i/n*6.283;poly([[Math.cos(a-.13)*r,Math.sin(a-.13)*r],[Math.cos(a)*r*1.3,Math.sin(a)*r*1.3],[Math.cos(a+.13)*r,Math.sin(a+.13)*r]])}}
     ctx.fillStyle='#ee2d2d';ctx.fillRect(r*.35,-r*.42,3*U,3*U);ctx.fillRect(r*.35,r*.25,3*U,3*U);
     if(z.effectT>0&&z.effect){
       const ec={fire:'#ff642e',ice:'#79e8ff',electric:'#fff36a',toxic:'#b7ff45'}[z.effect]||'#fff';
@@ -501,8 +616,16 @@ function draw(){
       else {for(let i=0;i<4;i++){const a=t*2+i*1.57;dot(Math.cos(a)*r*1.25,Math.sin(a)*r*1.25,2.5*U)}}
     }
     ctx.restore();
+    if(z.ally){ctx.fillStyle='#ff6fae';ctx.font='900 '+14*U+'px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('♥',z.x,z.y-z.r-9*U);ctx.strokeStyle='#ff6fae';ctx.lineWidth=2*U;ctx.globalAlpha=.7;ctx.beginPath();ctx.arc(z.x,z.y,z.r*1.3,0,6.283);ctx.stroke();ctx.globalAlpha=1}
   }
+  if(human){
+    ctx.fillStyle=human.hit>0?'#fff':'#f2c14e';dot(human.x,human.y,12*U);ctx.fillStyle='#e8c9a0';dot(human.x,human.y-1*U,6*U);
+    const bw=38*U;ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillRect(human.x-bw/2,human.y-23*U,bw,5*U);
+    ctx.fillStyle='#4cd07d';ctx.fillRect(human.x-bw/2,human.y-23*U,bw*Math.max(0,human.hp)/human.max,5*U);
+  }
+  for(const f of fx){ctx.globalAlpha=f.l/f.m*.6;ctx.fillStyle='#ffb347';dot(f.x,f.y,f.r*(1-f.l/f.m*.5));ctx.globalAlpha=1}
   for(const b of bullets){
+    if(b.syr||b.gr){ctx.save();ctx.fillStyle=b.syr?'#ff6fae':'#ff8a3d';dot(b.x,b.y,(b.syr?4:6)*U);if(b.syr){ctx.fillStyle='#fff';dot(b.x,b.y,1.8*U)}ctx.restore();continue}
     const colors={fire:'#ff642e',ice:'#79e8ff',electric:'#fff36a',toxic:'#b7ff45'};
     const col=colors[b.coat]||'#ffe9a0';
     ctx.save();ctx.lineCap='round';ctx.strokeStyle=col;ctx.globalAlpha=b.coat?.9:.75;ctx.lineWidth=(b.coat?4:2)*U;
@@ -515,7 +638,7 @@ function draw(){
   for(const g of rings){ctx.strokeStyle='rgba(255,90,70,'+(1-g.rr/(250*U))*.8+')';ctx.beginPath();ctx.arc(g.x,g.y,g.rr,0,6.283);ctx.stroke()}
   if(P&&st!=='menu'&&!(P.inv>0&&((t*30)|0)%2)){
     ctx.save();ctx.translate(P.x,P.y);ctx.rotate(P.a);
-    const wl=P.wp==='pistol'?16:P.wp==='smg'?22:P.wp==='laser'?24:28;
+    const wl=P.wp==='pistol'?16:P.wp==='smg'?22:P.wp==='laser'?24:P.wp==='syringe'?18:28;
     ctx.fillStyle='#222';ctx.fillRect(6*U,-3*U,wl*U,6*U);
     ctx.fillStyle='#4aa3df';dot(0,0,14*U);
     ctx.fillStyle='#e8c9a0';dot(2*U,0,7*U);dot(10*U,4*U,4*U);dot(10*U,-4*U,4*U);
